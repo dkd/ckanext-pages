@@ -44,12 +44,13 @@ def build_pages_nav_main(*args):
 
     page_name = ''
 
-    if (toolkit.c.action in ('pages_show', 'blog_show')
+    if (toolkit.c.action in ('pages_show')
        and toolkit.c.controller == 'ckanext.pages.controller:PagesController'):
         page_name = toolkit.c.environ['routes.url'].current().split('/')[-1]
 
     for page in pages_list:
-        type_ = 'blog' if page['page_type'] == 'blog' else 'pages'
+        # type_ = 'blog' if page['page_type'] == 'blog' else 'pages'
+        type_ = 'pages'
         name = urllib.quote(page['name'].encode('utf-8')).decode('utf-8')
         title = cgi.escape(page['title'])
         link = h.literal(u'<a href="/{}/{}">{}</a>'.format(type_, name, title))
@@ -75,20 +76,20 @@ def get_wysiwyg_editor():
     return config.get('ckanext.pages.editor', '')
 
 
-def get_recent_blog_posts(number=5, exclude=None):
-    blog_list = toolkit.get_action('ckanext_pages_list')(
-        None, {'order_publish_date': True, 'private': False,
-               'page_type': 'blog'}
-    )
-    new_list = []
-    for blog in blog_list:
-        if exclude and blog['name'] == exclude:
-            continue
-        new_list.append(blog)
-        if len(new_list) == number:
-            break
-
-    return new_list
+# def get_recent_blog_posts(number=5, exclude=None):
+#     blog_list = toolkit.get_action('ckanext_pages_list')(
+#         None, {'order_publish_date': True, 'private': False,
+#                'page_type': 'blog'}
+#     )
+#     new_list = []
+#     for blog in blog_list:
+#         if exclude and blog['name'] == exclude:
+#             continue
+#         new_list.append(blog)
+#         if len(new_list) == number:
+#             break
+#
+#     return new_list
 
 
 def get_plus_icon():
@@ -131,7 +132,7 @@ class PagesPlugin(PagesPluginBase):
             'build_nav_main': build_pages_nav_main,
             'render_content': render_content,
             'get_wysiwyg_editor': get_wysiwyg_editor,
-            'get_recent_blog_posts': get_recent_blog_posts,
+            # 'get_recent_blog_posts': get_recent_blog_posts,
             'pages_get_plus_icon': get_plus_icon
         }
 
@@ -170,14 +171,14 @@ class PagesPlugin(PagesPluginBase):
         map.connect('pages_upload', '/pages_upload',
                     action='pages_upload', controller=controller)
 
-        map.connect('blog_delete', '/blog_delete{page:/.*|}',
-                    action='blog_delete', ckan_icon='delete', controller=controller)
-        map.connect('blog_edit', '/blog_edit{page:/.*|}',
-                    action='blog_edit', ckan_icon='edit', controller=controller)
-        map.connect('blog_index', '/blog',
-                    action='blog_index', ckan_icon='file', controller=controller, highlight_actions='blog_edit blog_index blog_show')
-        map.connect('blog_show', '/blog{page:/.*|}',
-                    action='blog_show', ckan_icon='file', controller=controller, highlight_actions='blog_edit blog_index blog_show')
+        # map.connect('blog_delete', '/blog_delete{page:/.*|}',
+        #             action='blog_delete', ckan_icon='delete', controller=controller)
+        # map.connect('blog_edit', '/blog_edit{page:/.*|}',
+        #             action='blog_edit', ckan_icon='edit', controller=controller)
+        # map.connect('blog_index', '/blog',
+        #             action='blog_index', ckan_icon='file', controller=controller, highlight_actions='blog_edit blog_index blog_show')
+        # map.connect('blog_show', '/blog{page:/.*|}',
+        #             action='blog_show', ckan_icon='file', controller=controller, highlight_actions='blog_edit blog_index blog_show')
         return map
 
 

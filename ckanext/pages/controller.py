@@ -216,11 +216,11 @@ class PagesController(p.toolkit.BaseController):
         return p.toolkit.render('ckanext_pages/group_page_edit.html',
                                extra_vars=vars)
 
-    def blog_index(self):
-        return self._pages_list_pages('blog')
+    # def blog_index(self):
+        # return self._pages_list_pages('blog')
 
-    def blog_show(self, page=None):
-        return self.pages_show(page, page_type='blog')
+    # def blog_show(self, page=None):
+        # return self.pages_show(page, page_type='blog')
 
     def _inject_views_into_page(self, _page):
         # this is a good proxy to a version of CKAN with views enabled.
@@ -312,8 +312,8 @@ class PagesController(p.toolkit.BaseController):
 
     def _pages_list_pages(self, page_type):
         data_dict={'org_id': None, 'page_type': page_type}
-        if page_type == 'blog':
-            data_dict['order_publish_date'] = True
+        # if page_type == 'blog':
+        #    data_dict['order_publish_date'] = True
         p.toolkit.c.pages_dict = p.toolkit.get_action('ckanext_pages_list')(
             data_dict=data_dict
         )
@@ -324,12 +324,12 @@ class PagesController(p.toolkit.BaseController):
             items_per_page=21
         )
 
-        if page_type == 'blog':
-            return p.toolkit.render('ckanext_pages/blog_list.html')
+        # if page_type == 'blog':
+          #  return p.toolkit.render('ckanext_pages/blog_list.html')
         return p.toolkit.render('ckanext_pages/pages_list.html')
 
-    def blog_delete(self, page):
-        return self.pages_delete(page, page_type='blog')
+    # def blog_delete(self, page):
+         # return self.pages_delete(page, page_type='blog')
 
     def pages_delete(self, page, page_type='pages'):
         page = page[1:]
@@ -348,9 +348,9 @@ class PagesController(p.toolkit.BaseController):
             p.toolkit.abort(404, _('Group not found'))
         return p.toolkit.render('ckanext_pages/confirm_delete.html', {'page': page})
 
-
-    def blog_edit(self, page=None, data=None, errors=None, error_summary=None):
-        return self.pages_edit(page=page, data=data, errors=errors, error_summary=error_summary, page_type='blog')
+    # Deactivating blog site
+    # def blog_edit(self, page=None, data=None, errors=None, error_summary=None):
+       # return self.pages_edit(page=page, data=data, errors=errors, error_summary=error_summary, page_type='blog')
 
     def pages_edit(self, page=None, data=None, errors=None, error_summary=None, page_type='pages'):
         if page:
